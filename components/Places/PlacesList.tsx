@@ -1,7 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, Text, View } from 'react-native'
+import PlaceItem from './PlaceItem'
 
 interface PlacesListProps {
-  places: Place[];
+  places: Place[]
 }
 
 const PlacesList = ({ places }: PlacesListProps) => {
@@ -12,19 +13,27 @@ const PlacesList = ({ places }: PlacesListProps) => {
           No places added yet - start adding some!
         </Text>
       </View>
-    );
+    )
   }
-};
+
+  return (
+    <FlatList
+      data={places}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => <PlaceItem place={item} />}
+    />
+  )
+}
 
 const styles = StyleSheet.create({
-  fallbackContainer:{
-    flex:1,
-    justifyContent:'center',
-    alignItems'center'
+  fallbackContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   fallbackText: {
     fontSize: 16,
   },
-});
+})
 
-export default PlacesList;
+export default PlacesList

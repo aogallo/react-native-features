@@ -1,8 +1,8 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 
 interface PlaceItemProps {
-  place: Place;
-  onSelect(): void;
+  place: Place
+  onSelect?(): void
 }
 
 const PlaceItem = ({ place, onSelect }: PlaceItemProps) => {
@@ -14,9 +14,9 @@ const PlaceItem = ({ place, onSelect }: PlaceItemProps) => {
         <Text>{place.address}</Text>
       </View>
     </Pressable>
-  );
-};
+  )
+}
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({})
 
-export default PlaceItem;
+export default PlaceItem
