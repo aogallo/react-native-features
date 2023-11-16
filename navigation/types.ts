@@ -1,6 +1,8 @@
+import { LocationType } from '../screens/Map'
+
 export type RootStackParamList = {
-  AllPlaces: undefined
-  AddPlace: undefined
+  AllPlaces: { place: Place } | undefined
+  AddPlace: { pickedLocation: LocationType } | undefined
   Map: undefined
 }
 

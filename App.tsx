@@ -21,6 +21,7 @@ export default function App() {
             headerStyle: { backgroundColor: Colors.primary500 },
             headerTintColor: Colors.gray700,
             contentStyle: { backgroundColor: Colors.gray700 },
+            headerBackTitle: 'Back',
           }}
         >
           <Stack.Screen
@@ -33,7 +34,10 @@ export default function App() {
                   icon='add'
                   size={24}
                   color={tintColor!}
-                  onPress={() => navigation.navigate('AddPlace')}
+                  onPress={() => {
+                    console.log('add')
+                    navigation.navigate('AddPlace')
+                  }}
                 />
               ),
             })}

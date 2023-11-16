@@ -1,22 +1,56 @@
-import { Alert, Image, StyleSheet, Text, View } from 'react-native'
-import OutLinedButton from '../UI/OutLinedButton'
-import { Colors } from '../../constants/colors'
+import type { RouteProp } from '@react-navigation/native'
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native'
 import {
   PermissionStatus,
   getCurrentPositionAsync,
-  LocationObject,
   useForegroundPermissions,
 } from 'expo-location'
-import { useState } from 'react'
-import { getMapPreview } from '../../util/location'
-import { useNavigation } from '@react-navigation/native'
+import { useEffect, useState } from 'react'
+import { Alert, Image, StyleSheet, Text, View } from 'react-native'
+import { Colors } from '../../constants/colors'
+import { getAddress, getMapPreview } from '../../util/location'
+import OutLinedButton from '../UI/OutLinedButton'
+import { RootStackParamList } from '../../navigation/types'
+import { LocationType } from '../../screens/Map'
+import { PickedLocationType } from './PlaceForm'
 
-const LocationPicker = () => {
+type AddPlaceScreenRouteProp = RouteProp<RootStackParamList, 'AddPlace'>
+
+interface LocationPickerProps {
+  onPickImage(location: PickedLocationType): void
+}
+const LocationPicker = ({ onPickImage }: LocationPickerProps) => {
   const navigation = useNavigation()
-  const [CurrentLocation, setCurrentLocation] = useState<LocationObject | null>(
+  const route = useRoute<AddPlaceScreenRouteProp>()
+  const isFocused = useIsFocused()
+  const [currentLocation, setCurrentLocation] = useState<LocationType | null>(
     null,
   )
   const [locationStatus, requestPermission] = useForegroundPermissions()
+
+  useEffect(() => {
+    if (isFocused && route.params) {
+      setCurrentLocation({
+        latitude: route.params.pickedLocation.latitude,
+        longitude: route.params.pickedLocation.longitude,
+      })
+    }
+  }, [route, isFocused])
+
+  useEffect(() => {
+    async function handleLocation() {
+      if (currentLocation) {
+        const address = await getAddress(
+          currentLocation.latitude,
+          currentLocation.longitude,
+        )
+
+        onPickImage({ ...currentLocation, address })
+      }
+    }
+
+    handleLocation()
+  }, [currentLocation, onPickImage])
 
   const verifyPermissions = async () => {
     if (locationStatus?.status === PermissionStatus.UNDETERMINED) {
@@ -43,7 +77,12 @@ const LocationPicker = () => {
 
     const locationResult = await getCurrentPositionAsync()
 
-    setCurrentLocation(locationResult)
+    console.log(locationResult)
+
+    setCurrentLocation({
+      latitude: locationResult.coords.latitude,
+      longitude: locationResult.coords.longitude,
+    })
   }
 
   const pickOnMapHandler = () => {
@@ -53,13 +92,13 @@ const LocationPicker = () => {
   return (
     <View>
       <View style={styles.mapPreview}>
-        {CurrentLocation ? (
+        {currentLocation ? (
           <Image
             style={styles.map}
             source={{
               uri: getMapPreview(
-                CurrentLocation?.coords.latitude,
-                CurrentLocation?.coords.longitude,
+                currentLocation?.latitude,
+                currentLocation?.longitude,
               ),
             }}
           />

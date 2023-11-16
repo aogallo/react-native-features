@@ -8,7 +8,11 @@ import { useState } from 'react'
 import { Colors } from '../../constants/colors'
 import OutLinedButton from '../UI/OutLinedButton'
 
-const ImagePicket = () => {
+interface ImagePicketProps {
+  onTakenImage(uri: string): void
+}
+
+const ImagePicket = ({ onTakenImage }: ImagePicketProps) => {
   const [image, setImage] = useState('')
   const [cameraPermissionInformation, requestPermission] =
     useCameraPermissions()
@@ -45,6 +49,7 @@ const ImagePicket = () => {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri)
+      onTakenImage(result.assets[0].uri)
     }
   }
 
