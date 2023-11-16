@@ -8,10 +8,16 @@ import IconButton from './components/UI/IconButton'
 import { Colors } from './constants/colors'
 import Map from './screens/Map'
 import { RootStackParamList } from './navigation/types'
+import { useEffect } from 'react'
+import { init } from './util/database'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export default function App() {
+  useEffect(() => {
+    init()
+  }, [])
+
   return (
     <>
       <StatusBar style='dark' />
