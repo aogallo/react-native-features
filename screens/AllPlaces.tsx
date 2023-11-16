@@ -10,7 +10,15 @@ export type AllPlacesScreenProps = NativeStackScreenProps<
 >
 
 const AllPlaces = ({ route }: AllPlacesScreenProps) => {
-  const [places, setPlaces] = useState<Place[]>([])
+  const [places, setPlaces] = useState<Place[]>([
+    {
+      id: '1',
+      address: '2050 Buchanan St',
+      title: 'Test',
+      location: { lat: 37.8, lng: -122 },
+      imageUri: 'https://reactnative.dev/img/tiny_logo.png',
+    },
+  ])
   const isFocused = useIsFocused()
   useEffect(() => {
     if (isFocused && route.params) {
