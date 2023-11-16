@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, View } from 'react-native'
+import { Alert, Image, StyleSheet, Text, View } from 'react-native'
 import OutLinedButton from '../UI/OutLinedButton'
 import { Colors } from '../../constants/colors'
 import {
@@ -9,6 +9,7 @@ import {
 } from 'expo-location'
 import { useState } from 'react'
 import MapView from 'react-native-maps'
+import { getMapPreview } from '../../util/location'
 
 const LocationPicker = () => {
   const [CurrentLocation, setCurrentLocation] = useState<LocationObject | null>(
@@ -52,19 +53,13 @@ const LocationPicker = () => {
     <View>
       <View style={styles.mapPreview}>
         {CurrentLocation ? (
-          <MapView
+          <Image
             style={styles.map}
-            initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            region={{
-              latitude: CurrentLocation.coords.latitude,
-              longitude: CurrentLocation.coords.longitude,
-              latitudeDelta: 0, //CurrentLocation.coords.latitude,
-              longitudeDelta: 0, //CurrentLocation.coords.longitude,
+            source={{
+              uri: getMapPreview(
+                CurrentLocation?.coords.latitude,
+                CurrentLocation?.coords.longitude,
+              ),
             }}
           />
         ) : (
