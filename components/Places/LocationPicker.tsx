@@ -8,10 +8,11 @@ import {
   useForegroundPermissions,
 } from 'expo-location'
 import { useState } from 'react'
-import MapView from 'react-native-maps'
 import { getMapPreview } from '../../util/location'
+import { useNavigation } from '@react-navigation/native'
 
 const LocationPicker = () => {
+  const navigation = useNavigation()
   const [CurrentLocation, setCurrentLocation] = useState<LocationObject | null>(
     null,
   )
@@ -42,12 +43,12 @@ const LocationPicker = () => {
 
     const locationResult = await getCurrentPositionAsync()
 
-    console.log(locationResult)
-
     setCurrentLocation(locationResult)
   }
 
-  const pickOnMapHandler = () => {}
+  const pickOnMapHandler = () => {
+    navigation.navigate('Map')
+  }
 
   return (
     <View>
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: Colors.primary100,
     borderRadius: 4,
+    overflow: 'hidden',
   },
   map: {
     width: '100%',
