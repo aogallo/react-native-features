@@ -1,22 +1,30 @@
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet } from 'react-native'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
-import AllPlaces from './screens/AllPlaces'
-import AddPlace from './screens/AddPlace'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import AppLoading from 'expo-app-loading'
+import { StatusBar } from 'expo-status-bar'
+import { useEffect, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import IconButton from './components/UI/IconButton'
 import { Colors } from './constants/colors'
-import Map from './screens/Map'
 import { RootStackParamList } from './navigation/types'
-import { useEffect } from 'react'
+import AddPlace from './screens/AddPlace'
+import AllPlaces from './screens/AllPlaces'
+import Map from './screens/Map'
 import { init } from './util/database'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
 export default function App() {
+  const [dbInitialized, setDbInitialized] = useState(false)
   useEffect(() => {
     init()
+      .then(() => setDbInitialized(true))
+      .catch((error) => console.log(error))
   }, [])
+
+  if (!dbInitialized) {
+    return <AppLoading />
+  }
 
   return (
     <>
