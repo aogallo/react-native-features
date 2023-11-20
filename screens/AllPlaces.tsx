@@ -4,6 +4,7 @@ import { RootStackParamList } from '../navigation/types'
 import { useEffect, useState } from 'react'
 import { useIsFocused } from '@react-navigation/native'
 import { fetchPlaces } from '../util/database'
+import { SQLError, SQLResultSet } from 'expo-sqlite'
 
 export type AllPlacesScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -24,14 +25,19 @@ const AllPlaces = ({ route }: AllPlacesScreenProps) => {
   const isFocused = useIsFocused()
 
   useEffect(() => {
-    fetchPlaces().then((data) => setPlaces(data.rows._array))
-  }, [isFocused])
-
-  useEffect(() => {
-    if (isFocused && route.params) {
-      setPlaces((currentPlaces) => [...currentPlaces, route.params?.place!])
+    async function loadPlaces() {
+      const data = await fetchPlaces()
+      if (data instanceof SQLError) {
+        console.log('error to load places')
+      }
+      console.log(data)
     }
-  }, [isFocused, route])
+
+    if (isFocused) {
+      // setPlaces((currentPlaces) => [...currentPlaces, route.params?.place!])
+      loadPlaces()
+    }
+  }, [isFocused])
 
   return <PlacesList places={places} />
 }

@@ -1,5 +1,6 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native'
 import { Colors } from '../../constants/colors'
+import { Place } from '../../models/place'
 
 interface PlaceItemProps {
   place: Place

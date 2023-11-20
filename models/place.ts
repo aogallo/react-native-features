@@ -1,4 +1,4 @@
-class Place {
+export class Place {
   title = ''
   imageUri = ''
   address = ''

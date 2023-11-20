@@ -1,9 +1,11 @@
+import { Place } from '../models/place'
 import { LocationType } from '../screens/Map'
 
 export type RootStackParamList = {
   AllPlaces: { place: Place } | undefined
   AddPlace: { pickedLocation: LocationType } | undefined
   Map: undefined
+  PlaceDetails: { placeId: string } | undefined
 }
 
 declare global {
