@@ -12,12 +12,21 @@ export interface LocationType {
 
 type MapProps = NativeStackScreenProps<RootStackParamList, 'Map'>
 
-const Map = ({ navigation }: MapProps) => {
-  const [selectedLocation, setSelectedLocation] =
-    useState<LocationType | null>()
+const Map = ({ navigation, route }: MapProps) => {
+  const initialLocation = route.params
+    ? {
+        latitude: route.params.latitude,
+        longitude: route.params.longitude,
+      }
+    : null
+
+  const [selectedLocation, setSelectedLocation] = useState<LocationType | null>(
+    initialLocation,
+  )
+
   const region = {
-    latitude: 37.78,
-    longitude: -122.43,
+    latitude: initialLocation ? initialLocation.latitude : 14.628434,
+    longitude: initialLocation ? initialLocation.longitude : -90.522713,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   }
@@ -42,6 +51,10 @@ const Map = ({ navigation }: MapProps) => {
   }, [navigation, selectedLocation])
 
   useLayoutEffect(() => {
+    if (initialLocation) {
+      return
+    }
+
     navigation.setOptions({
       headerRight: ({ tintColor }) => (
         <IconButton
@@ -52,7 +65,7 @@ const Map = ({ navigation }: MapProps) => {
         />
       ),
     })
-  }, [navigation, savePickedLocationHandler])
+  }, [navigation, savePickedLocationHandler, initialLocation])
 
   return (
     <MapView

@@ -11,6 +11,7 @@ import AddPlace from './screens/AddPlace'
 import AllPlaces from './screens/AllPlaces'
 import Map from './screens/Map'
 import { init } from './util/database'
+import PlaceDetails from './screens/PlaceDetails'
 
 const Stack = createNativeStackNavigator<RootStackParamList>()
 
@@ -62,6 +63,11 @@ export default function App() {
             options={{ title: 'Add a new Place' }}
           />
           <Stack.Screen name='Map' component={Map} />
+          <Stack.Screen
+            name='PlaceDetails'
+            component={PlaceDetails}
+            options={{ title: 'Loading Place...' }}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </>

@@ -5,6 +5,7 @@ import { Place } from '../models/place'
 import { RootStackParamList } from '../navigation/types'
 import { fetchPlaceDetails } from '../util/database'
 import { Colors } from '../constants/colors'
+import OutLinedButton from '../components/UI/OutLinedButton'
 
 type PlaceDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
@@ -14,7 +15,12 @@ type PlaceDetailsScreenProps = NativeStackScreenProps<
 const PlaceDetails = ({ navigation, route }: PlaceDetailsScreenProps) => {
   const [fetchedPlace, setFetchedPlace] = useState<Place>()
 
-  function showOnMapHandler() {}
+  function showOnMapHandler() {
+    navigation.navigate('Map', {
+      longitude: fetchedPlace?.location.lng!,
+      latitude: fetchedPlace?.location.lat!,
+    })
+  }
 
   const selectedPlaceId = route.params?.placeId
 
@@ -40,6 +46,16 @@ const PlaceDetails = ({ navigation, route }: PlaceDetailsScreenProps) => {
   return (
     <ScrollView>
       <Image style={styles.image} source={{ uri: fetchedPlace.imageUri }} />
+      <View style={styles.locationContainer}>
+        <View style={styles.addressContainer}>
+          <Text style={styles.address}>{fetchedPlace.address}</Text>
+        </View>
+        <OutLinedButton
+          icon='map'
+          text='View on Map'
+          onPress={showOnMapHandler}
+        />
+      </View>
     </ScrollView>
   )
 }

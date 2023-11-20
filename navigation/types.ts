@@ -4,7 +4,7 @@ import { LocationType } from '../screens/Map'
 export type RootStackParamList = {
   AllPlaces: { place: Place } | undefined
   AddPlace: { pickedLocation: LocationType } | undefined
-  Map: undefined
+  Map: { latitude: number; longitude: number } | undefined
   PlaceDetails: { placeId: string } | undefined
 }
 
