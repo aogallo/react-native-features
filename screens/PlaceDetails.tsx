@@ -1,11 +1,11 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { useEffect, useState } from 'react'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
+import OutLinedButton from '../components/UI/OutLinedButton'
+import { Colors } from '../constants/colors'
 import { Place } from '../models/place'
 import { RootStackParamList } from '../navigation/types'
 import { fetchPlaceDetails } from '../util/database'
-import { Colors } from '../constants/colors'
-import OutLinedButton from '../components/UI/OutLinedButton'
 
 type PlaceDetailsScreenProps = NativeStackScreenProps<
   RootStackParamList,
